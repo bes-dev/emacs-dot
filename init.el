@@ -240,40 +240,9 @@
   (c-set-offset 'substatement-open 0))
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 
-; start auto-complete with emacs
-(require 'auto-complete)
-; do default config for auto-complete
-(require 'auto-complete-config)
-(ac-config-default)
-
-(c-add-style "my" '("gnu"
-                    (c-offsets-alist . ((innamespace . [0])))))
-
-(add-hook 'c++-mode-hook (lambda ()
-                           (c-set-style "my")))
-
 ;; yasnippet
 (require 'yasnippet)
 (yas-global-mode 1)
-
-(defun my:ac-c-headers-init ()
-  (require 'auto-complete-c-headers)
-  (add-to-list 'ac-sources 'ac-source-c-headers)
-  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-linux-gnu/4.8/include")
-)
-
-(add-hook 'c++-mode-hook 'my:ac-c-headers-init)
-(add-hook 'c-mode-hook 'my:ac-c-headers-init)
-
-; Add cmake listfile names to the mode list.
-(require 'cmake-mode)
-(setq auto-mode-alist
-	  (append
-	   '(("CMakeLists\\.txt\\'" . cmake-mode))
-	   '(("\\.cmake\\'" . cmake-mode))
-	   auto-mode-alist))
-
-(autoload 'cmake-mode "~/CMake/Auxiliary/cmake-mode.el" t)
 
 (defun parent-directory (dir)
   "Returns parent directory of dir"
