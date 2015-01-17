@@ -50,7 +50,7 @@
 		 auto-complete
 		 auto-complete-c-headers
 		 magit
-         multiple-cursors
+		 multiple-cursors
 		 ))
  '("package" "packages" "install"))
 
@@ -68,22 +68,22 @@
 
 ;; ibuffer groups
 (setq-default ibuffer-saved-filter-groups
-			  (quote (("default"
-					   ("org"  (mode . org-mode))
-					   ("dired" (mode . dired-mode))
-					   ("D" (mode . d-mode))
-					   ("C/C++" (or
-								 (mode . cc-mode)
-								 (mode . c-mode)
-								 (mode . c++-mode)))
-					   ("magit" (name . "^\\*magit"))
-					   ("Markdown" (mode . markdown-mode))
-					   ("emacs" (name . "^\\*Messages\\*$"))
-					   ("shell commands" (name . "^\\*.*Shell Command\\*"))))))
+	      (quote (("default"
+		       ("org"  (mode . org-mode))
+		       ("dired" (mode . dired-mode))
+		       ("D" (mode . d-mode))
+		       ("C/C++" (or
+				 (mode . cc-mode)
+				 (mode . c-mode)
+				 (mode . c++-mode)))
+		       ("magit" (name . "^\\*magit"))
+		       ("Markdown" (mode . markdown-mode))
+		       ("emacs" (name . "^\\*Messages\\*$"))
+		       ("shell commands" (name . "^\\*.*Shell Command\\*"))))))
 
 (add-hook 'ibuffer-mode-hook
-		  (lambda ()
-			(ibuffer-switch-to-saved-filter-groups "default")))
+	  (lambda ()
+	    (ibuffer-switch-to-saved-filter-groups "default")))
 
 (global-set-key (kbd "\C-x \C-b") 'ibuffer)
 
@@ -119,49 +119,6 @@
      (if (require 'window-numbering nil t)
 	 (window-numbering-mode 1)
        (warn "window-numbering-mode not found"))))
-
-
-;; ------------------------------------------------------------
-;; ADVICES
-(defadvice insert-for-yank-1 (after indent-region activate)
-  "Indent yanked region in certain modes, C-u prefix to disable"
-  (if (and (not current-prefix-arg)
-	   (member major-mode '(sh-mode
-				emacs-lisp-mode lisp-mode
-				c-mode c++-mode objc-mode d-mode java-mode cuda-mode
-				LaTeX-mode TeX-mode
-				xml-mode html-mode css-mode)))
-      (indent-region (region-beginning) (region-end) nil)))
-
-(eval-after-load "revive-autoloads"
-  '(progn
-     (when (require 'revive nil t)
-       (defun revive-save-window-configuration ()
-         (interactive)
-         (save-window-excursion
-           (let ((config (prin1-to-string (current-window-configuration-printable))))
-             (find-file "~/.revive-windows.el")
-             (erase-buffer)
-             (insert config)
-             (save-buffer))))
-       (defun revive-restore-window-configuration ()
-         (interactive)
-         (let ((config))
-           (save-window-excursion
-             (find-file "~/.revive-windows.el")
-             (beginning-of-buffer)
-             (setq config (read (current-buffer)))
-             (kill-buffer))
-           (restore-window-configuration config)))
-       (define-key ctl-x-map "S" 'revive-save-window-configuration)
-       (define-key ctl-x-map "R" 'revive-restore-window-configuration)
-       (revive-restore-window-configuration))))
-
-;; ------------------------------------------------------------
-;; magit
-;; ------------------------------------------------------------
-(require 'magit)
-
 
 ;; ------------------------------------------------------------
 ;; org-mode
@@ -224,9 +181,14 @@
        (global-set-key (kbd "M-#") 'mc/insert-numbers)
        (global-set-key (kbd "M-'") 'mc/align))))
 
-;; ------------------------------------------------------------
-;; IDE for C/C++
-;; ------------------------------------------------------------
+;; yasnippet
+(require 'yasnippet)
+(yas-global-mode 1)
+
+;; navigation between buffers
+(global-set-key "\C-x\C-p" 'previous-buffer)
+(global-set-key "\C-x\C-n" 'next-buffer)
+(global-set-key "\C-x\C-\\" 'other-window)
 
 (require 'cc-mode)
 (global-set-key (kbd "C-x C-i") 'linum-mode)
@@ -239,63 +201,3 @@
   (setq c-basic-offset 4)
   (c-set-offset 'substatement-open 0))
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
-
-;; yasnippet
-(require 'yasnippet)
-(yas-global-mode 1)
-
-(defun parent-directory (dir)
-  "Returns parent directory of dir"
-  (when dir
-	(file-name-directory (directory-file-name (expand-file-name dir)))))
-(defun search-file-up (name &optional path)
-  "Searches for file `name' in parent directories recursively"
-  (let* ((file-name (concat path name))
-		 (parent (parent-directory path))
-		 (path (or path default-directory)))
-	(cond
-	 ((file-exists-p file-name) file-name)
-	 ((string= parent path) nil)
-	 (t (search-file-up name parent)))))
-
-(defun update-tags-file (arg)
-  "Suggests options to update the TAGS file via ctags.
-With prefix arg - makes a call as sudo. Works for remote hosts
-also (>=23.4)"
-  (interactive "P")
-  (let ((tags-file-name
-		 (read-file-name
-		  "TAGS file: " (let ((fn (search-file-up "TAGS" default-directory)))
-						  (if fn
-							  (parent-directory fn)
-							default-directory))
-		  nil nil "TAGS"))
-		(ctags-command "")
-		(languages (case major-mode
-					 ((cc-mode c++-mode c-mode) "--languages=C,C++")
-					 ((d-mode) "--languages=D")
-					 (t ""))))
-	(when tags-file-name
-	  (setq ctags-command (concat ctags-command "cd " (replace-regexp-in-string ".*:" "" (file-name-directory tags-file-name)) " && ")))
-	(setq ctags-command (concat ctags-command "ctags -e " languages " -R . "))
-	(with-temp-buffer
-	  (when arg
-		(cd (add-sudo-to-filename (expand-file-name default-directory))))
-	  (shell-command (read-from-minibuffer "ctags command: " ctags-command)))
-	(visit-tags-table tags-file-name)))
-
-(setq-default tab-width 4)
-(setq-default indent-tabs-mode nil)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-(setq-default line-number-mode t)
-(setq-default column-number-mode t)
-(fset 'yes-or-no-p 'y-or-n-p)
-;; navigation between buffers
-(global-set-key "\C-x\C-p" 'previous-buffer)
-(global-set-key "\C-x\C-n" 'next-buffer)
-(global-set-key "\C-x\C-\\" 'other-window)
-
-(global-set-key "\C-x\C-u"          'update-tags-file)
-(global-set-key "\C-x\C-v"          'visit-tags-table)
-(global-set-key "\C-x\C-t"          'tags-reset-tags-tables)
-(global-set-key "\C-x\C-l"          'tags-apropos)
