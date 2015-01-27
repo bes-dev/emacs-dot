@@ -201,3 +201,21 @@
   (setq c-basic-offset 4)
   (c-set-offset 'substatement-open 0))
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
+
+; Add cmake listfile names to the mode list.
+(setq auto-mode-alist
+	  (append
+	   '(("CMakeLists\\.txt\\'" . cmake-mode))
+	   '(("\\.cmake\\'" . cmake-mode))
+	   auto-mode-alist))
+
+(autoload 'cmake-mode "~/CMake/Auxiliary/cmake-mode.el" t)
+
+;;;; tab as 4 spaces
+(setq tab-width 4)
+
+;;;; spaces instead tabs
+(setq c-basic-indent 4)
+(setq tab-width 4)
+(setq indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
