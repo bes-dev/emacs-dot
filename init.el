@@ -209,7 +209,8 @@
 	   '(("\\.cmake\\'" . cmake-mode))
 	   auto-mode-alist))
 
-(autoload 'cmake-mode "~/CMake/Auxiliary/cmake-mode.el" t)
+(require 'cmake-mode)
+;;; (autoload 'cmake-mode "~/CMake/Auxiliary/cmake-mode.el" t)
 
 ;;;; tab as 4 spaces
 (setq tab-width 4)
@@ -219,3 +220,18 @@
 (setq tab-width 4)
 (setq indent-tabs-mode nil)
 (setq-default indent-tabs-mode nil)
+
+;;;; hide toolbar
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(setq x-select-enable-clipboard t)
+
+;; Linum plugin
+(require 'linum) ;; вызвать Linum
+(line-number-mode   t) ;; показать номер строки в mode-line
+(global-linum-mode  t) ;; показывать номера строк во всех буферах
+(column-number-mode t) ;; показать номер столбца в mode-line
+(setq linum-format " %d") ;; задаем формат нумерации строк
+
+(global-set-key (kbd "C-x t") 'term)
