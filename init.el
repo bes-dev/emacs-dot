@@ -44,11 +44,7 @@
 		 dired-details
 		 window-numbering
 		 revive
-		 cmake-mode
-		 auto-complete-clang
 		 yasnippet
-		 auto-complete
-		 auto-complete-c-headers
 		 magit
 		 multiple-cursors
 		 ))
@@ -191,7 +187,6 @@
 (global-set-key "\C-x\C-\\" 'other-window)
 
 (require 'cc-mode)
-(global-set-key (kbd "C-x C-i") 'linum-mode)
 
 (setq-default c-basic-offset 4 c-default-style "linux")
 (setq-default tab-width 4 indent-tabs-mode t)
@@ -201,19 +196,6 @@
   (setq c-basic-offset 4)
   (c-set-offset 'substatement-open 0))
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
-
-; Add cmake listfile names to the mode list.
-(setq auto-mode-alist
-	  (append
-	   '(("CMakeLists\\.txt\\'" . cmake-mode))
-	   '(("\\.cmake\\'" . cmake-mode))
-	   auto-mode-alist))
-
-(require 'cmake-mode)
-;;; (autoload 'cmake-mode "~/CMake/Auxiliary/cmake-mode.el" t)
-
-;;;; tab as 4 spaces
-(setq tab-width 4)
 
 ;;;; spaces instead tabs
 (setq c-basic-indent 4)
@@ -226,8 +208,6 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (setq x-select-enable-clipboard t)
-
-(toggle-truncate-lines t)
 
 ;; Delete selection
 (delete-selection-mode t)
