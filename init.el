@@ -227,6 +227,11 @@
 (menu-bar-mode -1)
 (setq x-select-enable-clipboard t)
 
+(toggle-truncate-lines t)
+
+;; Delete selection
+(delete-selection-mode t)
+
 ;; Linum plugin
 (require 'linum) ;; вызвать Linum
 (line-number-mode   t) ;; показать номер строки в mode-line
@@ -247,4 +252,3 @@
               (setq count (1+ count))
               (kill-buffer buffer)))
           (message "Killed %i dired buffer(s)." count))))
-
