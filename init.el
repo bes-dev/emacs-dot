@@ -47,6 +47,7 @@
 		 yasnippet
 		 magit
 		 multiple-cursors
+         auto-complete
 		 ))
  '("package" "packages" "install"))
 
@@ -192,6 +193,16 @@
 (setq-default tab-width 4 indent-tabs-mode t)
 (define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
 
+(c-add-style "mycodingstyle"
+             '((c-comment-only-line-offset . 0)
+               (c-hanging-braces-alist . ((substatement-open before after)))
+               (c-offsets-alist . ((innamespace          . 0)))))
+
+;; c/c++ mode
+(add-hook 'c-mode-common-hook
+          '(lambda()
+             (c-set-style "mycodingstyle")))
+
 (defun my-c++-mode-hook ()
   (setq c-basic-offset 4)
   (c-set-offset 'substatement-open 0))
@@ -221,6 +232,13 @@
 
 (global-set-key (kbd "C-x t") 'term)
 
+(require 'grep)
+
+(grep-apply-setting 'grep-find-command
+                    (quote ("find . -type f -exec grep -nIHRi -e  {} +" . 37)))
+
+(global-set-key (kbd "C-f") 'find-grep)
+
 (defun kill-all-dired-buffers ()
       "Kill all dired buffers."
       (interactive)
@@ -232,3 +250,5 @@
               (setq count (1+ count))
               (kill-buffer buffer)))
           (message "Killed %i dired buffer(s)." count))))
+
+(require 'auto-complete)
