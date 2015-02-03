@@ -237,7 +237,7 @@
 (grep-apply-setting 'grep-find-command
                     (quote ("find . -type f -exec grep -nIHRi -e  {} +" . 37)))
 
-(global-set-key (kbd "C-f") 'find-grep)
+(global-set-key (kbd "C-c f") 'find-grep)
 
 (defun kill-all-dired-buffers ()
       "Kill all dired buffers."
@@ -252,3 +252,9 @@
           (message "Killed %i dired buffer(s)." count))))
 
 (require 'auto-complete)
+
+(require 'magit)
+
+(global-set-key (kbd "C-c m") 'magit-status)
+(global-set-key (kbd "C-c RET c") 'magit-commit)
+(global-set-key (kbd "C-c RET p") 'magit-push)
