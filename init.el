@@ -47,6 +47,7 @@
 		 yasnippet
 		 magit
 		 multiple-cursors
+         cmake-mode
          auto-complete
 		 ))
  '("package" "packages" "install"))
@@ -223,6 +224,15 @@
 ;; Delete selection
 (delete-selection-mode t)
 
+(eval-after-load "cmake-mode-autoloads"
+  '(progn
+     (when (require 'cmake-mode nil t)
+       (setq auto-mode-alist
+             (append '(("CMakeLists\\.txt\\'" . cmake-mode)
+                       ("CMakeCache\\.txt\\'" . cmake-mode)
+                       ("\\.cmake\\'" . cmake-mode))
+                     auto-mode-alist)))))
+
 ;; Linum plugin
 (require 'linum) ;; вызвать Linum
 (line-number-mode   t) ;; показать номер строки в mode-line
@@ -254,7 +264,6 @@
 (require 'auto-complete)
 
 (require 'magit)
-
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c RET c") 'magit-commit)
 (global-set-key (kbd "C-c RET p") 'magit-push)
