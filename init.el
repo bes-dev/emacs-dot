@@ -274,6 +274,11 @@
 (require 'auto-complete)
 
 (require 'magit)
+(add-hook 'magit-mode-hook
+          '(lambda()
+             (linum-mode 0) ;; turn off line numbers.
+             ))
+
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c RET c") 'magit-commit)
 (global-set-key (kbd "C-c RET p") 'magit-push)
