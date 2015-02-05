@@ -117,8 +117,7 @@
          (visual-line-mode 0) ;; unwrap lines.
          (linum-mode 0) ;; turn off line numbers.
          (auto-revert-mode) ;; auto-refresh dired
-         )
-      )
+         ))
 
 (provide 'init-dired)
 
