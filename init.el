@@ -110,7 +110,7 @@
        (add-hook 'dired-mode-hook
 		 '(lambda ()
 		    (dired-details-install)
-		    (setq dired-details-nhidden-string "--- ")
+		    (setq dired-details-hidden-string "--- ")
 		    (define-key dired-mode-map (kbd "h") 'dired-details-toggle))))))
 
 (add-hook 'dired-mode-hook
