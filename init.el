@@ -24,9 +24,9 @@
 ;; ------------------------------------------------------------
 
 (setq package-archives '(("org-mode" . "http://orgmode.org/elpa/")
-			 ("gnu" . "http://elpa.gnu.org/packages/")
-			 ("melpa" . "http://melpa.milkbox.net/packages/")
-			 ))
+                         ("gnu" . "http://elpa.gnu.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")
+                         ))
 (setq package-enable-at-startup nil)
 (package-initialize)
 ;; check if the required packages are installed; suggest installing if not
@@ -40,16 +40,16 @@
       (setq --package-contents-refreshed-on-init 1))
     (package-install package))
  (cl-remove-if 'package-installed-p
-	       '(
-		 dired-details
-		 window-numbering
-		 revive
-		 yasnippet
-		 magit
-		 multiple-cursors
-         cmake-mode
-         auto-complete
-		 ))
+               '(
+                 dired-details
+                 window-numbering
+                 revive
+                 yasnippet
+                 magit
+                 multiple-cursors
+                 cmake-mode
+                 auto-complete
+                 ))
  '("package" "packages" "install"))
 
 ;; define translations
@@ -66,23 +66,23 @@
 
 ;; ibuffer groups
 (setq-default ibuffer-saved-filter-groups
-	      (quote (("default"
-		       ("org"  (mode . org-mode))
-		       ("dired" (mode . dired-mode))
-		       ("D" (mode . d-mode))
-		       ("C/C++" (or
-				 (mode . cc-mode)
-				 (mode . c-mode)
-				 (mode . c++-mode)))
-		       ("magit" (name . "^\\*magit"))
-		       ("Markdown" (mode . markdown-mode))
-		       ("emacs" (name . "^\\*Messages\\*$"))
-		       ("shell commands" (name . "^\\*.*Shell Command\\*"))))))
+              (quote (("default"
+                       ("org"  (mode . org-mode))
+                       ("dired" (mode . dired-mode))
+                       ("D" (mode . d-mode))
+                       ("C/C++" (or
+                                 (mode . cc-mode)
+                                 (mode . c-mode)
+                                 (mode . c++-mode)))
+                       ("magit" (name . "^\\*magit"))
+                       ("Markdown" (mode . markdown-mode))
+                       ("emacs" (name . "^\\*Messages\\*$"))
+                       ("shell commands" (name . "^\\*.*Shell Command\\*"))))))
 
 (add-hook 'ibuffer-mode-hook
-	  (lambda ()
-	    (ibuffer-switch-to-saved-filter-groups "default")
-        (linum-mode 0)))
+          (lambda ()
+            (ibuffer-switch-to-saved-filter-groups "default")
+            (linum-mode 0)))
 
 (global-set-key (kbd "\C-x \C-b") 'ibuffer)
 
@@ -108,24 +108,24 @@
   '(progn
      (when (require 'dired-details nil t)
        (add-hook 'dired-mode-hook
-		 '(lambda ()
-		    (dired-details-install)
-		    (setq dired-details-hidden-string "--- ")
-		    (define-key dired-mode-map (kbd "h") 'dired-details-toggle))))))
+                 '(lambda ()
+                    (dired-details-install)
+                    (setq dired-details-hidden-string "--- ")
+                    (define-key dired-mode-map (kbd "h") 'dired-details-toggle))))))
 
 (add-hook 'dired-mode-hook
-	  '(lambda()
-         (visual-line-mode 0) ;; unwrap lines.
-         (linum-mode 0) ;; turn off line numbers.
-         (auto-revert-mode) ;; auto-refresh dired
-         ))
+          '(lambda()
+             (visual-line-mode 0) ;; unwrap lines.
+             (linum-mode 0) ;; turn off line numbers.
+             (auto-revert-mode) ;; auto-refresh dired
+             ))
 
 (provide 'init-dired)
 
 (eval-after-load "window-numbering-autoloads"
   '(progn
      (if (require 'window-numbering nil t)
-	 (window-numbering-mode 1)
+         (window-numbering-mode 1)
        (warn "window-numbering-mode not found"))))
 
 ;; ------------------------------------------------------------
@@ -260,16 +260,16 @@
 (global-set-key (kbd "C-c f") 'find-grep)
 
 (defun kill-all-dired-buffers ()
-      "Kill all dired buffers."
-      (interactive)
-      (save-excursion
-        (let ((count 0))
-          (dolist (buffer (buffer-list))
-            (set-buffer buffer)
-            (when (equal major-mode 'dired-mode)
-              (setq count (1+ count))
-              (kill-buffer buffer)))
-          (message "Killed %i dired buffer(s)." count))))
+  "Kill all dired buffers."
+  (interactive)
+  (save-excursion
+    (let ((count 0))
+      (dolist (buffer (buffer-list))
+        (set-buffer buffer)
+        (when (equal major-mode 'dired-mode)
+          (setq count (1+ count))
+          (kill-buffer buffer)))
+      (message "Killed %i dired buffer(s)." count))))
 
 (require 'auto-complete)
 
