@@ -112,6 +112,16 @@
 		    (setq dired-details-nhidden-string "--- ")
 		    (define-key dired-mode-map (kbd "h") 'dired-details-toggle))))))
 
+(add-hook 'dired-mode-hook
+	  '(lambda()
+         (visual-line-mode 0) ;; unwrap lines.
+         (linum-mode 0) ;; turn off line numbers.
+         (auto-revert-mode) ;; auto-refresh dired
+         )
+      )
+
+(provide 'init-dired)
+
 (eval-after-load "window-numbering-autoloads"
   '(progn
      (if (require 'window-numbering nil t)
