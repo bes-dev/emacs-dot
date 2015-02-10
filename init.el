@@ -279,8 +279,8 @@
              (linum-mode 0)))
 
 (global-set-key (kbd "C-c m") 'magit-status)
-(global-set-key (kbd "C-c RET c") 'magit-commit)
-(global-set-key (kbd "C-c RET p") 'magit-push)
+;;(global-set-key (kbd "C-c RET c") 'magit-commit)
+;;(global-set-key (kbd "C-c RET p") 'magit-push)
 
 (defun kill-whitespace ()
           "Kill the whitespace between two non-whitespace characters"
