@@ -313,3 +313,11 @@
 (global-set-key (kbd "C-x q") 'only-current-buffer)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+(require 'uniquify)
+(setq-default uniquify-buffer-name-style 'forward)
+
+(global-set-key (kbd "C-z") 'undo)
+
+(setq-default truncate-lines t)
+(global-set-key (kbd "C-x t") 'toggle-truncate-lines)
