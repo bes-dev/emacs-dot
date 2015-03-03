@@ -259,18 +259,6 @@
 
 (global-set-key (kbd "C-c f") 'find-grep)
 
-;; (defun kill-all-dired-buffers ()
-;;   "Kill all dired buffers."
-;;   (interactive)
-;;   (save-excursion
-;;     (let ((count 0))
-;;       (dolist (buffer (buffer-list))
-;;         (set-buffer buffer)
-;;         (when (equal major-mode 'dired-mode)
-;;           (setq count (1+ count))
-;;           (kill-buffer buffer)))
-;;       (message "Killed %i dired buffer(s)." count))))
-
 (require 'auto-complete)
 
 (require 'magit)
@@ -279,8 +267,6 @@
              (linum-mode 0)))
 
 (global-set-key (kbd "C-c m") 'magit-status)
-;;(global-set-key (kbd "C-c RET c") 'magit-commit)
-;;(global-set-key (kbd "C-c RET p") 'magit-push)
 
 (defun kill-whitespace ()
           "Kill the whitespace between two non-whitespace characters"
