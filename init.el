@@ -311,3 +311,5 @@
     (mapc 'kill-buffer (cdr (buffer-list (current-buffer)))))
 
 (global-set-key (kbd "C-x q") 'only-current-buffer)
+
+(defalias 'yes-or-no-p 'y-or-n-p)
