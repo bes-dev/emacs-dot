@@ -53,7 +53,11 @@
                  ))
  '("package" "packages" "install"))
 
-;; (load "~/.emacs.d/emacs-dot/hjkl-mode.el")
+;; hjkl-navigation
+;; (global-set-key (kbd "M-h") 'backward-char)
+;; (global-set-key (kbd "M-j") 'next-line)
+;; (global-set-key (kbd "M-k") 'previous-line)
+;; (global-set-key (kbd "M-l") 'forward-char)
 
 ;; define translations
 (define-key key-translation-map [?\C-h] [?\C-?]) ;; translate C-h to DEL
