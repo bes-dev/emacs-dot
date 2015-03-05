@@ -59,6 +59,29 @@
 ;; (global-set-key (kbd "M-k") 'previous-line)
 ;; (global-set-key (kbd "M-l") 'forward-char)
 
+;; change window size
+(defun my-enlarge-vert ()
+  (interactive)
+  (enlarge-window 2))
+
+(defun my-shrink-vert ()
+  (interactive)
+  (enlarge-window -2))
+
+(defun my-enlarge-horz ()
+  (interactive)
+  (enlarge-window-horizontally 2))
+
+(defun my-shrink-horz ()
+  (interactive)
+  (enlarge-window-horizontally -2))
+
+(global-set-key (kbd "M-h") 'my-shrink-horz)
+(global-set-key (kbd "M-j") 'my-enlarge-vert)
+(global-set-key (kbd "M-k") 'my-shrink-vert)
+(global-set-key (kbd "M-l") 'my-enlarge-horz)
+
+
 ;; define translations
 (define-key key-translation-map [?\C-h] [?\C-?]) ;; translate C-h to DEL
 
