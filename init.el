@@ -49,8 +49,11 @@
                  multiple-cursors
                  cmake-mode
                  auto-complete
+                 key-chord
                  ))
  '("package" "packages" "install"))
+
+;; (load "~/.emacs.d/emacs-dot/hjkl-mode.el")
 
 ;; define translations
 (define-key key-translation-map [?\C-h] [?\C-?]) ;; translate C-h to DEL
@@ -307,3 +310,5 @@
 
 (setq-default truncate-lines t)
 (global-set-key (kbd "C-x t") 'toggle-truncate-lines)
+
+(setq make-pointer-invisible t)
