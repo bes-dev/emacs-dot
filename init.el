@@ -76,10 +76,10 @@
   (interactive)
   (enlarge-window-horizontally -2))
 
-(global-set-key (kbd "M-h") 'my-shrink-horz)
-(global-set-key (kbd "M-j") 'my-enlarge-vert)
-(global-set-key (kbd "M-k") 'my-shrink-vert)
-(global-set-key (kbd "M-l") 'my-enlarge-horz)
+(global-set-key (kbd "C-9") 'my-shrink-horz)
+(global-set-key (kbd "C-)") 'my-enlarge-vert)
+(global-set-key (kbd "C-(") 'my-shrink-vert)
+(global-set-key (kbd "C-0") 'my-enlarge-horz)
 
 
 ;; define translations
