@@ -49,6 +49,7 @@
                  multiple-cursors
                  cmake-mode
                  auto-complete
+                 key-chord
                  ))
  '("package" "packages" "install"))
 
