@@ -49,7 +49,6 @@
                  multiple-cursors
                  cmake-mode
                  auto-complete
-                 irony
                  helm
                  ))
  '("package" "packages" "install"))
@@ -342,5 +341,7 @@
 (setq make-pointer-invisible t)
 
 (require 'helm-config)
-(helm-mode 1)
+(setq helm-input-idle-delay 0.2)
+(helm-mode t)
+(global-set-key (kbd "M-x") 'helm-M-x)
 (helm-autoresize-mode 1)
