@@ -50,14 +50,9 @@
                  cmake-mode
                  auto-complete
                  helm
+                 auto-yasnippet
                  ))
  '("package" "packages" "install"))
-
-;; hjkl-navigation
-;; (global-set-key (kbd "M-h") 'backward-char)
-;; (global-set-key (kbd "M-j") 'next-line)
-;; (global-set-key (kbd "M-k") 'previous-line)
-;; (global-set-key (kbd "M-l") 'forward-char)
 
 ;; change window size
 (defun my-enlarge-vert ()
@@ -222,6 +217,10 @@
 ;; yasnippet
 (require 'yasnippet)
 (yas-global-mode 1)
+
+(global-set-key (kbd "C-x w") 'aya-create)
+(global-set-key (kbd "C-x y") 'aya-expand)
+(global-set-key (kbd "C-o") 'aya-open-line)
 
 ;; navigation between buffers
 (global-set-key "\C-x\C-p" 'previous-buffer)
