@@ -112,6 +112,22 @@
 (global-set-key (kbd "\C-x \C-b") 'ibuffer)
 
 ;; ------------------------------------------------------------
+;; Dired
+;; ------------------------------------------------------------
+(defun dired-open-native ()
+  "Open marked files (or the file the cursor is on) from dired."
+  (interactive)
+  (let* ((files (dired-get-marked-files t current-prefix-arg))
+         (n (length files)))
+    (when (or (<= n 3)
+              (y-or-n-p (format "Open %d files?" n)))
+      (dolist (file files)
+        (call-process "gnome-open"
+                      nil 0 nil file)))))
+
+(define-key dired-mode-map (kbd "s-o") 'dired-open-native)
+
+;; ------------------------------------------------------------
 ;; Save backup files into specialize directory
 ;; ------------------------------------------------------------
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
