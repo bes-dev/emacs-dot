@@ -49,7 +49,6 @@
                  multiple-cursors
                  cmake-mode
                  auto-complete
-                 helm
                  auto-yasnippet
                  ))
  '("package" "packages" "install"))
@@ -355,8 +354,26 @@
 
 (setq make-pointer-invisible t)
 
-(require 'helm-config)
-(setq helm-input-idle-delay 0.2)
-(helm-mode t)
-(global-set-key (kbd "M-x") 'helm-M-x)
-(helm-autoresize-mode 1)
+(global-set-key (kbd "C-c c") 'compile)
+
+(global-unset-key (kbd "<left>"))
+(global-unset-key (kbd "<right>"))
+(global-unset-key (kbd "<up>"))
+(global-unset-key (kbd "<down>"))
+(global-unset-key (kbd "<C-left>"))
+(global-unset-key (kbd "<C-right>"))
+(global-unset-key (kbd "<C-up>"))
+(global-unset-key (kbd "<C-down>"))
+(global-unset-key (kbd "<M-left>"))
+(global-unset-key (kbd "<M-right>"))
+(global-unset-key (kbd "<M-up>"))
+(global-unset-key (kbd "<M-down>"))
+
+(require 'auto-complete)
+(require 'auto-complete-config)
+(ac-config-default)
+(global-auto-complete-mode t)
+(setq ac-delay 0.2)
+(setq ac-auto-show-menu 0.2)
+(ac-set-trigger-key "TAB")
+(ac-set-trigger-key "<tab>")
