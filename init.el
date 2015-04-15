@@ -419,3 +419,16 @@ buffer is not visiting a file."
       (let ((position (point)))
         (find-alternate-file (add-sudo-to-filename buffer-file-name))
         (goto-char position)))))
+
+(require 'compile)
+(make-variable-buffer-local 'compile-command)
+(global-set-key "\C-c\C-c" 'compile)
+
+;; auto-scroll until first error
+(setq-default compilation-scroll-output (quote first-error))
+
+;; those patterns are used by dmd compiler
+(setq-default compilation-error-regexp-alist
+              (append '(("^\\(.*?\\)(\\([0-9]+\\)): Warning:" 1 2 nil 1)
+                        ("^\\(.*?\\)(\\([0-9]+\\)): Error:" 1 2 nil 2))
+                      compilation-error-regexp-alist))
