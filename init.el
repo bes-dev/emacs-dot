@@ -377,3 +377,45 @@
 (setq ac-auto-show-menu 0.2)
 (ac-set-trigger-key "TAB")
 (ac-set-trigger-key "<tab>")
+
+(defun add-sudo-to-filename (filename)
+  "Adds sudo proxy to filename for use with TRAMP.
+
+Works for both local and remote hosts (>=23.4). The syntax used
+for remote hosts follows the pattern
+'/ssh:you@remotehost|sudo:remotehost:/path/to/file'. Some people
+say, that you may need to call smth like
+`(set-default 'tramp-default-proxies-alist (quote ((\".*\"
+\"\\`root\\'\" \"/ssh:%u@%h:\"))))', but it works for me just fine
+without it. "
+  (with-temp-buffer
+    (insert filename)
+    (goto-char (point-max))
+    (if (re-search-backward "@\\(.*\\):" nil t)
+        (let ((remote-name (buffer-substring (match-beginning 1) (match-end 1))))
+          (goto-char (match-end 1))
+          (insert (concat "|sudo:" remote-name))
+          (goto-char (point-min))
+          (forward-char)
+          (when (looking-at "scp")
+            (delete-char 3)
+            (when (looking-at "c")
+              (delete-char 1))
+            (insert "ssh"))
+          (buffer-string))
+      (concat "/sudo::" filename))))
+
+(define-key global-map (kbd "\C-x!")
+  (defun sudo-edit-current-file (&optional arg)
+    "Edit currently visited file as root.
+
+With a prefix ARG prompt for a file to visit.
+Will also prompt for a file to visit if current
+buffer is not visiting a file."
+    (interactive "P")
+    (if (or arg (not buffer-file-name))
+        (find-file (concat "/sudo:root@localhost:"
+                           (ido-read-file-name "Find file(as root): ")))
+      (let ((position (point)))
+        (find-alternate-file (add-sudo-to-filename buffer-file-name))
+        (goto-char position)))))
