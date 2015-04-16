@@ -369,14 +369,16 @@
 (global-unset-key (kbd "<M-up>"))
 (global-unset-key (kbd "<M-down>"))
 
-(require 'auto-complete)
-(require 'auto-complete-config)
-(ac-config-default)
-(global-auto-complete-mode t)
-(setq ac-delay 0.2)
-(setq ac-auto-show-menu 0.2)
-(ac-set-trigger-key "TAB")
-(ac-set-trigger-key "<tab>")
+(when (require 'auto-complete nil t)
+  (require 'auto-complete-config)
+  (ac-flyspell-workaround)
+  (setq-default ac-auto-show-menu 0)
+  (global-auto-complete-mode 1))
+
+(add-hook 'c-mode-common-hook
+'(lambda ()
+   (add-to-list 'ac-sources 'ac-source-yasnippet)
+))
 
 (defun add-sudo-to-filename (filename)
   "Adds sudo proxy to filename for use with TRAMP.
