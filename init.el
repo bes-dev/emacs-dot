@@ -434,3 +434,17 @@ buffer is not visiting a file."
               (append '(("^\\(.*?\\)(\\([0-9]+\\)): Warning:" 1 2 nil 1)
                         ("^\\(.*?\\)(\\([0-9]+\\)): Error:" 1 2 nil 2))
                       compilation-error-regexp-alist))
+
+(defun translate-google-en-ru ()
+  (interactive)
+  (with-output-to-temp-buffer "*translate*"
+    (shell-command-on-region
+     (mark)
+     (point)
+     "trans en:ru"
+     "*translate*"
+     nil
+     "*translate-error-buffer*"
+     t)))
+
+(global-set-key (kbd "C-c t") 'translate-google-en-ru)
