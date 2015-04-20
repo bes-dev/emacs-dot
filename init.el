@@ -439,7 +439,7 @@ buffer is not visiting a file."
   (interactive (list (read-string "Language (default en:ru):")))
   (if (equal arg "")
       (setq arg "en:ru"))
-  (with-output-to-temp-buffer "*translate*"
+ (with-output-to-temp-buffer "*translate*"
     (async-shell-command
      (concat "trans " arg " \"" (buffer-substring (mark) (point)) "\"") "*translate*")))
 
