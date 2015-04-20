@@ -441,7 +441,7 @@ buffer is not visiting a file."
       (setq arg "en:ru"))
   (with-output-to-temp-buffer "*translate*"
     (async-shell-command
-     (concat "trans " arg " " (buffer-substring (mark) (point))) "*translate*")))
+     (concat "trans " arg " \"" (buffer-substring (mark) (point)) "\"") "*translate*")))
 
 
 (global-set-key (kbd "C-c t") 'translate-google)
