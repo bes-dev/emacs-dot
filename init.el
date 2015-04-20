@@ -435,16 +435,13 @@ buffer is not visiting a file."
                         ("^\\(.*?\\)(\\([0-9]+\\)): Error:" 1 2 nil 2))
                       compilation-error-regexp-alist))
 
-(defun translate-google-en-ru ()
-  (interactive)
+(defun translate-google (arg)
+  (interactive (list (read-string "language (default en:ru):")))
+  (if (equal arg "")
+      (setq arg "en:ru"))
   (with-output-to-temp-buffer "*translate*"
-    (shell-command-on-region
-     (mark)
-     (point)
-     "trans en:ru"
-     "*translate*"
-     nil
-     "*translate-error-buffer*"
-     t)))
+    (async-shell-command
+     (concat "trans " arg " " (buffer-substring (mark) (point))) "*translate*")))
 
-(global-set-key (kbd "C-c t") 'translate-google-en-ru)
+
+(global-set-key (kbd "C-c t") 'translate-google)
