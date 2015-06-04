@@ -50,6 +50,7 @@
                  cmake-mode
                  auto-complete
                  auto-yasnippet
+                 evil
                  ))
  '("package" "packages" "install"))
 
@@ -231,11 +232,30 @@
 
 ;; yasnippet
 (require 'yasnippet)
-(yas-global-mode 1)
 
 (global-set-key (kbd "C-x w") 'aya-create)
 (global-set-key (kbd "C-x y") 'aya-expand)
 (global-set-key (kbd "C-o") 'aya-open-line)
+
+(eval-after-load "yasnippet-autoloads"
+  '(progn
+     (if (require 'yasnippet nil t)
+         (progn
+           (let ((yas-dir "/home/sergei/.emacs.d/emacs-dot/.yasnippets"))
+             (when (file-exists-p yas-dir)
+               (setq yas-snippet-dirs (list yas-dir))))
+           (setq-default yas-prompt-functions (quote
+                                               (yas-dropdown-prompt
+                                                yas-ido-prompt
+                                                yas-completing-prompt
+                                                yas-x-prompt
+                                                yas-no-prompt)))
+           (yas-global-mode 1)
+
+           (add-hook 'term-mode-hook
+                     '(lambda ()
+                        (yas-minor-mode -1))))
+       (message "WARNING: yasnippet not found"))))
 
 ;; navigation between buffers
 (global-set-key "\C-x\C-p" 'previous-buffer)
@@ -439,8 +459,15 @@ buffer is not visiting a file."
   (interactive (list (read-string "Language (default en:ru):")))
   (if (equal arg "")
       (setq arg "en:ru"))
- (with-output-to-temp-buffer "*translate*"
+  (with-output-to-temp-buffer "*translate*"
     (async-shell-command
      (concat "trans " arg " \"" (buffer-substring (mark) (point)) "\"") "*translate*")))
 
 (global-set-key (kbd "C-c t") 'translate-google)
+
+(defun compile-run (arg)
+  (interactive (list (read-string "path:")))
+  (with-output-to-temp-buffer "*compile-run*"
+    (async-shell-command arg "*compile-run*")))
+
+(global-set-key (kbd "C-c r") 'compile-run)
