@@ -50,14 +50,11 @@
                  cmake-mode
                  auto-complete
                  auto-yasnippet
-<<<<<<< HEAD
                  ess
-=======
                  evil
                  hide-region
                  company
                  semantic
->>>>>>> 22637b83561869085155d662bde556090274e69d
                  ))
  '("package" "packages" "install"))
 
@@ -562,11 +559,8 @@ buffer is not visiting a file."
 
 (global-set-key (kbd "C-c r") 'compile-run)
 
-<<<<<<< HEAD
 (setq ediff-split-window-function 'split-window-horizontally)
 (defvar my-ediff-awin-config nil "Window configuration after ediff.")
-=======
 (require 'hide-region)
 
 (setq dired-dwim-target t)
->>>>>>> 22637b83561869085155d662bde556090274e69d
