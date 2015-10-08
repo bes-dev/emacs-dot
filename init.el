@@ -50,7 +50,7 @@
                  cmake-mode
                  auto-complete
                  auto-yasnippet
-                 evil
+                 ess
                  ))
  '("package" "packages" "install"))
 
@@ -274,6 +274,10 @@
                (c-offsets-alist . ((innamespace          . 0)))))
 
 ;; c/c++ mode
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cuh\\'" . c++-mode))
 (add-hook 'c-mode-common-hook
           '(lambda()
              (c-set-style "mycodingstyle")))
@@ -463,6 +467,8 @@ buffer is not visiting a file."
     (async-shell-command
      (concat "trans " arg " \"" (buffer-substring (mark) (point)) "\"") "*translate*")))
 
+(global-set-key (kbd "C-x c") 'calculator)
+
 (global-set-key (kbd "C-c t") 'translate-google)
 
 (defun compile-run (arg)
@@ -471,3 +477,6 @@ buffer is not visiting a file."
     (async-shell-command arg "*compile-run*")))
 
 (global-set-key (kbd "C-c r") 'compile-run)
+
+(setq ediff-split-window-function 'split-window-horizontally)
+(defvar my-ediff-awin-config nil "Window configuration after ediff.")
