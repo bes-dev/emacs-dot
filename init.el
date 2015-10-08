@@ -50,7 +50,14 @@
                  cmake-mode
                  auto-complete
                  auto-yasnippet
+<<<<<<< HEAD
                  ess
+=======
+                 evil
+                 hide-region
+                 company
+                 semantic
+>>>>>>> 22637b83561869085155d662bde556090274e69d
                  ))
  '("package" "packages" "install"))
 
@@ -287,6 +294,79 @@
   (c-set-offset 'substatement-open 0))
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 
+(require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
+
+(require 'cc-mode)
+(require 'semantic)
+
+(global-semanticdb-minor-mode 1)
+(global-semantic-idle-scheduler-mode 1)
+
+(semantic-mode 1)
+
+(defvar c-files-regex ".*\\.\\(c\\|cpp\\|h\\|hpp\\)"
+  "A regular expression to match any c/c++ related files under a directory")
+
+(defun my-semantic-parse-dir (root regex)
+  "
+   This function is an attempt of mine to force semantic to
+   parse all source files under a root directory. Arguments:
+   -- root: The full path to the root directory
+   -- regex: A regular expression against which to match all files in the directory
+  "
+  (let (
+        ;;make sure that root has a trailing slash and is a dir
+        (root (file-name-as-directory root))
+        (files (directory-files root t ))
+       )
+    ;; remove current dir and parent dir from list
+    (setq files (delete (format "%s." root) files))
+    (setq files (delete (format "%s.." root) files))
+    (while files
+      (setq file (pop files))
+      (if (not(file-accessible-directory-p file))
+          ;;if it's a file that matches the regex we seek
+          (progn (when (string-match-p regex file)
+               (save-excursion
+                 (semanticdb-file-table-object file))
+           ))
+          ;;else if it's a directory
+          (my-semantic-parse-dir file regex)
+      )
+     )
+  )
+)
+
+(defun my-semantic-parse-current-dir (regex)
+  "
+   Parses all files under the current directory matching regex
+  "
+  (my-semantic-parse-dir (file-name-directory(buffer-file-name)) regex)
+)
+
+(defun lk-parse-curdir-c ()
+  "
+   Parses all the c/c++ related files under the current directory
+   and inputs their data into semantic
+  "
+  (interactive)
+  (my-semantic-parse-current-dir c-files-regex)
+)
+
+(defun lk-parse-dir-c (dir)
+  "Prompts the user for a directory and parses all c/c++ related files
+   under the directory
+  "
+  (interactive (list (read-directory-name "Provide the directory to search in:")))
+  (my-semantic-parse-dir (expand-file-name dir) c-files-regex)
+)
+
+(provide 'lk-file-search)
+
+(global-set-key (kbd "C-c j") 'semantic-complete-jump)
+(global-set-key (kbd "C-c l") 'semantic-analyze-possible-completions)
+
 ;;;; spaces instead tabs
 (setq c-basic-indent 4)
 (setq tab-width 4)
@@ -399,6 +479,10 @@
   (setq-default ac-auto-show-menu 0)
   (global-auto-complete-mode 1))
 
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cuh\\'" . c++-mode))
 (add-hook 'c-mode-common-hook
 '(lambda ()
    (add-to-list 'ac-sources 'ac-source-yasnippet)
@@ -478,5 +562,11 @@ buffer is not visiting a file."
 
 (global-set-key (kbd "C-c r") 'compile-run)
 
+<<<<<<< HEAD
 (setq ediff-split-window-function 'split-window-horizontally)
 (defvar my-ediff-awin-config nil "Window configuration after ediff.")
+=======
+(require 'hide-region)
+
+(setq dired-dwim-target t)
+>>>>>>> 22637b83561869085155d662bde556090274e69d
