@@ -54,7 +54,8 @@
                  evil
                  hide-region
                  company
-                 semantic
+                 org
+                 ox-reveal
                  ))
  '("package" "packages" "install"))
 
@@ -295,74 +296,6 @@
 (add-hook 'after-init-hook 'global-company-mode)
 
 (require 'cc-mode)
-(require 'semantic)
-
-(global-semanticdb-minor-mode 1)
-(global-semantic-idle-scheduler-mode 1)
-
-(semantic-mode 1)
-
-(defvar c-files-regex ".*\\.\\(c\\|cpp\\|h\\|hpp\\)"
-  "A regular expression to match any c/c++ related files under a directory")
-
-(defun my-semantic-parse-dir (root regex)
-  "
-   This function is an attempt of mine to force semantic to
-   parse all source files under a root directory. Arguments:
-   -- root: The full path to the root directory
-   -- regex: A regular expression against which to match all files in the directory
-  "
-  (let (
-        ;;make sure that root has a trailing slash and is a dir
-        (root (file-name-as-directory root))
-        (files (directory-files root t ))
-       )
-    ;; remove current dir and parent dir from list
-    (setq files (delete (format "%s." root) files))
-    (setq files (delete (format "%s.." root) files))
-    (while files
-      (setq file (pop files))
-      (if (not(file-accessible-directory-p file))
-          ;;if it's a file that matches the regex we seek
-          (progn (when (string-match-p regex file)
-               (save-excursion
-                 (semanticdb-file-table-object file))
-           ))
-          ;;else if it's a directory
-          (my-semantic-parse-dir file regex)
-      )
-     )
-  )
-)
-
-(defun my-semantic-parse-current-dir (regex)
-  "
-   Parses all files under the current directory matching regex
-  "
-  (my-semantic-parse-dir (file-name-directory(buffer-file-name)) regex)
-)
-
-(defun lk-parse-curdir-c ()
-  "
-   Parses all the c/c++ related files under the current directory
-   and inputs their data into semantic
-  "
-  (interactive)
-  (my-semantic-parse-current-dir c-files-regex)
-)
-
-(defun lk-parse-dir-c (dir)
-  "Prompts the user for a directory and parses all c/c++ related files
-   under the directory
-  "
-  (interactive (list (read-directory-name "Provide the directory to search in:")))
-  (my-semantic-parse-dir (expand-file-name dir) c-files-regex)
-)
-
-(provide 'lk-file-search)
-
-(global-set-key (kbd "C-c j") 'semantic-complete-jump)
-(global-set-key (kbd "C-c l") 'semantic-analyze-possible-completions)
 
 ;;;; spaces instead tabs
 (setq c-basic-indent 4)
@@ -414,32 +347,32 @@
 (global-set-key (kbd "C-c m") 'magit-status)
 
 (defun kill-whitespace ()
-          "Kill the whitespace between two non-whitespace characters"
-          (interactive "*")
-          (save-excursion
-            (save-restriction
-              (save-match-data
-                (progn
-                  (re-search-backward "[^ \t\r\n]" nil t)
-                  (re-search-forward "[ \t\r\n]+" nil t)
-                  (replace-match "" nil nil))))))
+  "Kill the whitespace between two non-whitespace characters"
+  (interactive "*")
+  (save-excursion
+    (save-restriction
+      (save-match-data
+        (progn
+          (re-search-backward "[^ \t\r\n]" nil t)
+          (re-search-forward "[ \t\r\n]+" nil t)
+          (replace-match "" nil nil))))))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (defun comment-or-uncomment-region-or-line ()
-    "Comments or uncomments the region or the current line if there's no active region."
-    (interactive)
-    (let (beg end)
-        (if (region-active-p)
-            (setq beg (region-beginning) end (region-end))
-            (setq beg (line-beginning-position) end (line-end-position)))
-        (comment-or-uncomment-region beg end)))
+  "Comments or uncomments the region or the current line if there's no active region."
+  (interactive)
+  (let (beg end)
+    (if (region-active-p)
+        (setq beg (region-beginning) end (region-end))
+      (setq beg (line-beginning-position) end (line-end-position)))
+    (comment-or-uncomment-region beg end)))
 
 (global-set-key (kbd "C-/") 'comment-or-uncomment-region-or-line)
 
 (defun only-current-buffer ()
   (interactive)
-    (mapc 'kill-buffer (cdr (buffer-list (current-buffer)))))
+  (mapc 'kill-buffer (cdr (buffer-list (current-buffer)))))
 
 (global-set-key (kbd "C-x q") 'only-current-buffer)
 
@@ -481,9 +414,9 @@
 (add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.cuh\\'" . c++-mode))
 (add-hook 'c-mode-common-hook
-'(lambda ()
-   (add-to-list 'ac-sources 'ac-source-yasnippet)
-))
+          '(lambda ()
+             (add-to-list 'ac-sources 'ac-source-yasnippet)
+             ))
 
 (defun add-sudo-to-filename (filename)
   "Adds sudo proxy to filename for use with TRAMP.
@@ -564,3 +497,57 @@ buffer is not visiting a file."
 (require 'hide-region)
 
 (setq dired-dwim-target t)
+
+(defun toggle-fullscreen ()
+  (interactive)
+  (if (eq (frame-parameter nil 'fullscreen) 'fullboth) ;tests if already fullscreened
+      (set-frame-parameter nil 'fullscreen 'maximized)
+    (set-frame-parameter nil 'fullscreen 'fullboth)))
+
+(global-set-key (kbd "<f11>") 'toggle-fullscreen)
+
+(defun mouse-avoidance-banish-destination ()
+  "The position to which Mouse-Avoidance mode `banish' moves the mouse.
+You can redefine this if you want the mouse banished to a different corner."
+  (let* ((pos (window-edges)))
+    (cons (- (nth 1 pos) 2)
+          (+ (nth 1 pos) 100))))
+
+(setq mouse-avoidance-banish-position 'mouse-avoidance-banish-destination)
+
+;; (add-to-list 'load-path "/home/sergei/.emacs.d/org-mode/lisp")
+;; (add-to-list 'load-path "/home/sergei/.emacs.d/org-mode/contrib/lisp" t)
+
+;; (require 'ox-reveal)
+;; (setq org-reveal-root "/home/sergei/.emacs.d/org-reveal/reveal.js")
+
+(eval-after-load "ox-reveal-autoloads"
+  '(progn
+     (when (and (require 'org nil t) (require 'ox-reveal nil t))
+       (defun conditional-org-reveal-export-to-html ()
+         (save-excursion
+           (beginning-of-buffer)
+           (when (search-forward "#+REVEAL" nil nil)
+             (org-reveal-export-to-html))))
+
+       (add-hook 'org-ctrl-c-ctrl-c-final-hook
+                 'conditional-org-reveal-export-to-html)
+
+       (defcustom org-reveal-repo "https://github.com/hakimel/reveal.js.git"
+         "Destination of the reveal.js repo. You can point it to a local clone."
+         :group 'ox-reveal)
+       (defun org-reveal-init ()
+         (interactive)
+         (async-shell-command (concat "git clone --depth 1 " org-reveal-repo))
+         (find-file "template.org")
+         (insert "revealjs")
+         (yas-expand)
+         (goto-char (point-min))
+         (search-forward "(")
+         (backward-char)
+         (forward-sexp)
+         (eval-and-replace)
+         (backward-delete-char 1)
+         (search-backward "\"")
+         (delete-char 1)
+         (save-buffer)))))
