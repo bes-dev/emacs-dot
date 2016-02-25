@@ -1,6 +1,9 @@
 (require 'cl-lib)
 (require 'dired-x)
 
+;; maximize window
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
 ;; lose UI early
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
