@@ -21,6 +21,7 @@
 ;; make background a little darker
 (set-background-color "#1d1f21")
 
+
 ;; ------------------------------------------------------------
 ;; EXTERNAL PACKAGES
 ;; initialization
@@ -59,6 +60,8 @@
                  company
                  org
                  ox-reveal
+                 elpy
+                 flycheck
                  ))
  '("package" "packages" "install"))
 
@@ -118,6 +121,35 @@
             (linum-mode 0)))
 
 (global-set-key (kbd "\C-x \C-b") 'ibuffer)
+
+;; (set-input-method 'russian-computer)
+(setq alternative-input-methods
+      '(("russian-computer" . [?\C-\\])))
+
+(setq default-input-method
+      (caar alternative-input-methods))
+
+(defun toggle-alternative-input-method (method &optional arg interactive)
+  (if arg
+      (toggle-input-method arg interactive)
+    (let ((previous-input-method current-input-method))
+      (when current-input-method
+        (deactivate-input-method))
+      (unless (and previous-input-method
+                   (string= previous-input-method method))
+        (activate-input-method method)))))
+
+(defun reload-alternative-input-methods ()
+  (dolist (config alternative-input-methods)
+    (let ((method (car config)))
+      (global-set-key (cdr config)
+                      `(lambda (&optional arg interactive)
+                         ,(concat "Behaves similar to `toggle-input-method', but uses \""
+                                  method "\" instead of `default-input-method'")
+                         (interactive "P\np")
+                         (toggle-alternative-input-method ,method arg interactive))))))
+
+(reload-alternative-input-methods)
 
 ;; ------------------------------------------------------------
 ;; Dired
@@ -554,3 +586,16 @@ You can redefine this if you want the mouse banished to a different corner."
          (search-backward "\"")
          (delete-char 1)
          (save-buffer)))))
+
+
+;; Configuration for python development
+;; M-x setenv PYTHONPATH=$PYTHONPATH:<path to module>
+
+(require 'elpy)
+(elpy-enable)
+;; enable for interactive debug
+;; (elpy-use-ipython)
+
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
