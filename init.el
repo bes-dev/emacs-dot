@@ -30,9 +30,9 @@
                  magit
                  org
                  yasnippet
+                 elpy
                  ;; auto-yasnippet
                  ;; ox-reveal
-                 ;; elpy
                  ))
  '("package" "packages" "install"))
 
