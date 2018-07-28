@@ -384,4 +384,22 @@ files"
 (add-hook 'find-file-hook 'append-tramp-host)
 (add-hook 'dired-mode-hook 'append-tramp-host)
 
+;; ------------------------------------------------------------
+;; shell
+;; ------------------------------------------------------------
+(global-set-key (kbd "C-c e") 'eshell)
+
+;; ------------------------------------------------------------
+;; turn off sounds
+;; ------------------------------------------------------------
+(setq ring-bell-function 'ignore)
+
+;; ------------------------------------------------------------
+;; show time in progress bar
+;; ------------------------------------------------------------
+(setq display-time-string-forms
+      '((propertize (concat " " 24-hours ":" minutes " ")
+                     'face 'egoge-display-time)))
+(display-time-mode 1)
+
 (provide 'emacs-generic)

@@ -17,6 +17,8 @@
                       nil 0 nil file)))))
 
 (define-key dired-mode-map (kbd "C-c o") 'dired-open-native)
+(define-key dired-mode-map (kbd "C-c r") 'dired-do-delete)
+(define-key dired-mode-map (kbd "C-c c") 'dired-do-copy)
 
 ;; ------------------------------------------------------------
 ;; dired-details
