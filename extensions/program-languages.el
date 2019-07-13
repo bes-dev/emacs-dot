@@ -149,6 +149,7 @@
 ;; ------------------------------------------------------------
 (require 'elpy)
 (elpy-enable)
+(setq elpy-rpc-python-command "python3")
 
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
