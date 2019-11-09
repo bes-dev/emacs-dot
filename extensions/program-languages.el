@@ -150,6 +150,10 @@
 (require 'elpy)
 (elpy-enable)
 (setq elpy-rpc-python-command "python3")
+(add-hook 'elpy-mode-hook
+          (lambda()
+            (define-key elpy-mode-map (kbd "C-c n") 'elpy-goto-definition)))
+
 
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))

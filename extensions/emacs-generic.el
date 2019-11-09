@@ -55,6 +55,11 @@
 (global-set-key (kbd "C-0") 'my-enlarge-horz)
 
 ;; ------------------------------------------------------------
+;; change font (for retina display)
+;; ------------------------------------------------------------
+(set-frame-font "Menlo 14" nil t)
+
+;; ------------------------------------------------------------
 ;; define translations
 ;; ------------------------------------------------------------
 (define-key key-translation-map [?\C-h] [?\C-?]) ;; translate C-h to DEL
