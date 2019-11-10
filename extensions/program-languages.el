@@ -152,7 +152,7 @@
 (setq elpy-rpc-python-command "python3")
 (add-hook 'elpy-mode-hook
           (lambda()
-            (define-key elpy-mode-map (kbd "C-c n") 'elpy-goto-definition)))
+            (define-key elpy-mode-map (kbd "C-c n") 'elpy-goto-definition-other-window)))
 
 
 (when (require 'flycheck nil t)
