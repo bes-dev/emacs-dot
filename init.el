@@ -5,7 +5,7 @@
 
 (setq package-archives '(("org-mode" . "http://orgmode.org/elpa/")
                          ("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")
+                         ("melpa" . "http://melpa.org/packages/")
                          ))
 (setq package-enable-at-startup nil)
 (package-initialize)
@@ -31,8 +31,8 @@
                  org
                  yasnippet
                  elpy
-                 ;; auto-yasnippet
-                 ;; ox-reveal
+                 auto-yasnippet
+                 ox-reveal
                  ))
  '("package" "packages" "install"))
 
@@ -62,3 +62,4 @@
 (require 'google (concat emacs-d "extensions/google.el"))
 (require 'spell-check (concat emacs-d "extensions/spell-check.el"))
 (require 'program-languages (concat emacs-d "extensions/program-languages.el"))
+(require 'org-settings (concat emacs-d "extensions/org-settings.el"))
