@@ -48,6 +48,8 @@
 (setq-default org-support-shift-select (quote always))
 ;; pretty table view
 (add-hook 'org-mode-hook (lambda () (org-pretty-table-mode)))
+;; highlight active row of the table
+(add-hook 'org-mode-hook (lambda () (hl-line-mode 1)))
 ;; configure TODO keywords
 (setq org-todo-keywords
       '((sequence "TODO" "ACTIVE" "DONE" "CANCELED")))
