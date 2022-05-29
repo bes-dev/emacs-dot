@@ -147,17 +147,17 @@
 ;; ------------------------------------------------------------
 ;; Python
 ;; ------------------------------------------------------------
-(require 'elpy)
-(elpy-enable)
-(setq elpy-rpc-python-command "python3")
-(add-hook 'elpy-mode-hook
-          (lambda()
-            (define-key elpy-mode-map (kbd "C-c C-n") 'elpy-goto-definition-other-window)
-            (define-key elpy-mode-map (kbd "C-c n") 'elpy-goto-definition)))
+;; (require 'elpy)
+;; (elpy-enable)
+;; (setq elpy-rpc-python-command "python3")
+;; (add-hook 'elpy-mode-hook
+;;           (lambda()
+;;             (define-key elpy-mode-map (kbd "C-c C-n") 'elpy-goto-definition-other-window)
+;;             (define-key elpy-mode-map (kbd "C-c n") 'elpy-goto-definition)))
 
 
-(when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
+;; (when (require 'flycheck nil t)
+;;   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+;;   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
 (provide 'program-languages)

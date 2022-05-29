@@ -33,6 +33,7 @@
                  elpy
                  auto-yasnippet
                  ox-reveal
+                 org-superstar
                  ))
  '("package" "packages" "install"))
 
