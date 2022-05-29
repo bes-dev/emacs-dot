@@ -61,6 +61,6 @@
 ;; inline preview latex formulas
 (add-hook 'org-mode-hook 'org-fragtog-mode)
 ;; change inline latex font size
-(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+(setq org-format-latex-options (plist-put org-format-latex-options :scale 1.7))
 
 (provide 'org-settings)
