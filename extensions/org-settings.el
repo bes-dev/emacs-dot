@@ -62,5 +62,14 @@
 (add-hook 'org-mode-hook 'org-fragtog-mode)
 ;; change inline latex font size
 (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.7))
+;; prettify symbols
+(add-hook 'org-mode-hook (lambda ()
+   "Beautify Org Checkbox Symbol"
+   (push '("[ ]" . "☐") prettify-symbols-alist)
+   (push '("[X]" . "☑" ) prettify-symbols-alist)
+   (push '("[-]" . "❍" ) prettify-symbols-alist)
+   (prettify-symbols-mode)))
+;; hide tags
+
 
 (provide 'org-settings)
