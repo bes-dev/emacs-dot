@@ -34,9 +34,15 @@
                  auto-yasnippet
                  ox-reveal
                  org-superstar
+                 org-bullets
+                 use-package
+                 editorconfig
+                 quelpa
+                 quelpa-use-package
+                 ;; Lsp-mode
+                 ;; lsp-ui
                  ))
  '("package" "packages" "install"))
-
 
 ;; ------------------------------------------------------------
 ;; LOCAL PACKAGES
@@ -64,3 +70,5 @@
 (require 'spell-check (concat emacs-d "extensions/spell-check.el"))
 (require 'program-languages (concat emacs-d "extensions/program-languages.el"))
 (require 'org-settings (concat emacs-d "extensions/org-settings.el"))
+(require 'ai-assistant (concat emacs-d "extensions/ai-assistant.el"))
+(require 'copilot-assistant (concat emacs-d "extensions/copilot-assistant.el"))

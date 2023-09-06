@@ -160,4 +160,27 @@
 ;;   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
 ;;   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
+
+;; ------------------------------------------------------------
+;; Python LSP
+;; ------------------------------------------------------------
+;; (use-package lsp-mode
+;;              :hook
+;;              ((python-mode . lsp)))
+;; (use-package lsp-ui
+;;              :commands lsp-ui-mode)
+;; (use-package lsp-mode
+;;              :config
+;;              (lsp-register-custom-settings
+;;               '(("pyls.plugins.pyls_mypy.enabled" t t)
+;;                 ("pyls.plugins.pyls_mypy.live_mode" nil t)
+;;                 ("pyls.plugins.pyls_black.enabled" t t)
+;;                 ("pyls.plugins.pyls_isort.enabled" t t)))
+;;              :hook
+;;              ((python-mode . lsp)))
+;; (lsp-register-custom-settings
+;;  '(("pyls.plugins.flake8.enabled" t t)))
+;; (setq lsp-pyls-plugins-flake8-enabled t)
+
+
 (provide 'program-languages)
